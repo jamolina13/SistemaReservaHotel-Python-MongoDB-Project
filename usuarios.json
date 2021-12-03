@@ -1,0 +1,61 @@
+[{
+  "_id": {
+    "$oid": "61a8732405805f839b8f7262"
+  },
+  "foto": "aqui una foto",
+  "nombre": "Joel",
+  "apellido": "Molina",
+  "cedula": "2350632952",
+  "telefono": "0979592898",
+  "correo": "jamolina13@espe.edu.ec",
+  "direccion": "Via Chone",
+  "tipoHabitacion": "Individual",
+  "fechaI": "2021-12-11",
+  "fechaF": "2021-12-16",
+  "tarifa": "125"
+},{
+  "_id": {
+    "$oid": "61a8c7d2ce1dd6823d28ce33"
+  },
+  "foto": "aqui una foto",
+  "nombre": "Fabian",
+  "apellido": "Carguacundo",
+  "cedula": "2350033391",
+  "telefono": "0988898268",
+  "correo": "afcarguacundo@espe.edu.ec",
+  "direccion": "15 de septiembre",
+  "tipoHabitacion": "Matrimonial",
+  "fechaI": "2021-10-12",
+  "fechaF": "2021-10-14",
+  "tarifa": "300"
+},{
+  "_id": {
+    "$oid": "61a8c840ce1dd6823d28ce35"
+  },
+  "foto": "aqui una foto",
+  "nombre": "Sebas",
+  "apellido": "Calahorrano",
+  "cedula": "1719539361",
+  "telefono": "0987628299",
+  "correo": "jscalahorrano@espe.edu.ec",
+  "direccion": "Santa Martha",
+  "tipoHabitacion": "Individual",
+  "fechaI": "2021-10-14",
+  "fechaF": "2021-10-18",
+  "tarifa": "125"
+},{
+  "_id": {
+    "$oid": "61a8c88cce1dd6823d28ce36"
+  },
+  "foto": "aqui una foto",
+  "nombre": "Jorge",
+  "apellido": "Pineda",
+  "cedula": "1234567891",
+  "telefono": "1234567891",
+  "correo": "japinda@espe.edu.ec",
+  "direccion": "Via Principal",
+  "tipoHabitacion": "Matrimonial",
+  "fechaI": "2021-12-14",
+  "fechaF": "2021-10-14",
+  "tarifa": "300"
+}]
