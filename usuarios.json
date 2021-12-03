@@ -2,7 +2,6 @@
   "_id": {
     "$oid": "61a8732405805f839b8f7262"
   },
-  "foto": "aqui una foto",
   "nombre": "Joel",
   "apellido": "Molina",
   "cedula": "2350632952",
@@ -17,7 +16,6 @@
   "_id": {
     "$oid": "61a8c7d2ce1dd6823d28ce33"
   },
-  "foto": "aqui una foto",
   "nombre": "Fabian",
   "apellido": "Carguacundo",
   "cedula": "2350033391",
@@ -32,11 +30,10 @@
   "_id": {
     "$oid": "61a8c840ce1dd6823d28ce35"
   },
-  "foto": "aqui una foto",
   "nombre": "Sebas",
   "apellido": "Calahorrano",
   "cedula": "1719539361",
-  "telefono": "0987628299",
+  "telefono": "1719539361",
   "correo": "jscalahorrano@espe.edu.ec",
   "direccion": "Santa Martha",
   "tipoHabitacion": "Individual",
@@ -47,7 +44,6 @@
   "_id": {
     "$oid": "61a8c88cce1dd6823d28ce36"
   },
-  "foto": "aqui una foto",
   "nombre": "Jorge",
   "apellido": "Pineda",
   "cedula": "1234567891",
