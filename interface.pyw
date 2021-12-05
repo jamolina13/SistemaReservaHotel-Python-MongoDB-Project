@@ -1,4 +1,5 @@
 from tkinter import *
+from tkinter import font
 from pymongo import MongoClient
 from conexion import *
 from datetime import datetime
@@ -52,19 +53,19 @@ def mostrarDatos(cedula=""):
             tabla.delete(registro)
         for documento in coleccion.find(objetoBuscar):
             tabla.insert('', 0, text=documento["_id"], values=(documento["nombre"],
-                                                               documento["apellido"], documento["cedula"], documento["telefono"], documento["correo"], documento["direccion"], documento["tipoHabitacion"], documento['fechaI'], documento['fechaF'], str(documento['tarifa'])))
+                                                               documento["apellido"], documento["cedula"], documento["telefono"], documento["correo"], documento["ciudad"], documento["tipoHabitacion"], documento['fechaI'], documento['fechaF'], str(documento['tarifa'])))
         cliente.close()
     except pymongo.errors.ServerSelectionTimeoutError as errorTiempo:
         print("Tiempo exedido "+errorTiempo)
     except pymongo.errors.ConnectionFailure as errorConexion:
         print("Fallo al conectarse a mongodb "+errorConexion)
 
-# /////////////VALIDACIONES
+# /////////////VALIDACIONES/////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
 def crearRegistro():
-    if len(nombre.get()) != 0 and len(apellido.get()) != 0 and len(cedula.get()) != 0 and len(telefono.get()) != 0 and len(correo.get()) != 0 and len(direccion.get()) != 0 and len(tipoA.get()) != 0 and len(fechaI.get()) != 0 and len(fechaF.get()) != 0 and len(tarifa.get()) != 0:
-        if nombre.get().isalpha():
+    if len(nombre.get()) != 0 and len(apellido.get()) != 0 and len(cedula.get()) != 0 and len(telefono.get()) != 0 and len(correo.get()) != 0 and len(ciudad.get()) != 0 and len(tipoA.get()) != 0 and len(fechaI.get()) != 0 and len(fechaF.get()) != 0 and len(tarifa.get()) != 0:
+        if nombre.get().isalpha:
             if apellido.get().isalpha():
                 if tipoA.get().isalpha():
                     if cedula.get().isdigit():
@@ -76,32 +77,48 @@ def crearRegistro():
                                             try:
                                                 (datetime.strptime(
                                                     fechaI.get(), '%Y-%m-%d') and datetime.strptime(fechaF.get(), '%Y-%m-%d'))
-                                                if fechaI.get() != fechaF.get():
+                                                if datetime.strptime(fechaI.get(), '%Y-%m-%d') >= datetime.today() and datetime.strptime(fechaF.get(), '%Y-%m-%d') >= datetime.today():
+                                                    if fechaI.get() != fechaF.get():
+                                                        if tarifa.get().isdigit():
+                                                            try:
+                                                                documento = {"nombre": nombre.get().capitalize(), "apellido": apellido.get().capitalize(), "cedula": cedula.get(), "telefono": telefono.get(), "correo": correo.get(
+                                                                ), "ciudad": ciudad.get(), "tipoHabitacion": tipoA.get(), "fechaI": fechaI.get(), "fechaF": fechaF.get(), "tarifa": tarifa.get()}
+                                                                coleccion.insert(
+                                                                    documento)
 
-                                                    try:
-                                                        documento = {"nombre": nombre.get(), "apellido": apellido.get(), "cedula": cedula.get(), "telefono": telefono.get(), "correo": correo.get(
-                                                        ), "direccion": direccion.get(), "tipoHabitacion": tipoA.get(), "fechaI": fechaI.get(), "fechaF": fechaF.get(), "tarifa": tarifa.get()}
-                                                        coleccion.insert(
-                                                            documento)
-
-                                                        apellido.delete(0, END)
-                                                        nombre.delete(0, END)
-                                                        cedula.delete(0, END)
-                                                        telefono.delete(0, END)
-                                                        correo.delete(0, END)
-                                                        direccion.delete(
-                                                            0, END)
-                                                        tipoA.delete(0, END)
-                                                        fechaI.delete(0, END)
-                                                        fechaF.delete(0, END)
-                                                        tarifa.delete(0, END)
-                                                        messagebox.showinfo(
-                                                            "CORRECTO", "Usuario creado exitosamente")
-                                                    except pymongo.errors.ConnectionFailure as error:
-                                                        print(error)
+                                                                apellido.delete(
+                                                                    0, END)
+                                                                nombre.delete(
+                                                                    0, END)
+                                                                cedula.delete(
+                                                                    0, END)
+                                                                telefono.delete(
+                                                                    0, END)
+                                                                correo.delete(
+                                                                    0, END)
+                                                                ciudad.delete(
+                                                                    0, END)
+                                                                tipoA.delete(
+                                                                    0, END)
+                                                                fechaI.delete(
+                                                                    0, END)
+                                                                fechaF.delete(
+                                                                    0, END)
+                                                                tarifa.delete(
+                                                                    0, END)
+                                                                messagebox.showinfo(
+                                                                    "CORRECTO", "Usuario creado exitosamente")
+                                                            except pymongo.errors.ConnectionFailure as error:
+                                                                print(error)
+                                                        else:
+                                                            messagebox.showerror(
+                                                                "ERROR", "Tarifa debe ser de tipo númerico")
+                                                    else:
+                                                        messagebox.showerror(
+                                                            "ERROR", "Las fechas de ingreso y salida no deben ser las mismas")
                                                 else:
                                                     messagebox.showerror(
-                                                        "ERROR", "Las fechas de ingreso y salida no deben ser las mismas")
+                                                        "ERROR", "La fecha debe ser mayor o igual al día actual")
                                             except ValueError:
                                                 messagebox.showerror(
                                                     "ERROR", "El formato de la fecha es incorrecto, example: Y-m-d")
@@ -143,7 +160,6 @@ def dobleClickTabla(event):
     print(ID_USUARIO)
     documento = coleccion.find({"_id": ObjectId(ID_USUARIO)})[0]
     print(documento)
-
     nombre.delete(0, END)
     nombre.insert(0, documento["nombre"])
     apellido.delete(0, END)
@@ -151,11 +167,11 @@ def dobleClickTabla(event):
     cedula.delete(0, END)
     cedula.insert(0, documento["cedula"])
     telefono.delete(0, END)
-    telefono.insert(0, documento["cedula"])
+    telefono.insert(0, documento["telefono"])
     correo.delete(0, END)
     correo.insert(0, documento["correo"])
-    direccion.delete(0, END)
-    direccion.insert(0, documento["direccion"])
+    ciudad.delete(0, END)
+    ciudad.insert(0, documento["ciudad"])
     tipoA.delete(0, END)
     tipoA.insert(0, documento["tipoHabitacion"])
     fechaI.delete(0, END)
@@ -171,7 +187,7 @@ def dobleClickTabla(event):
 
 def editarRegistro():
     global ID_USUARIO
-    if len(nombre.get()) != 0 and len(apellido.get()) != 0 and len(cedula.get()) != 0 and len(telefono.get()) != 0 and len(correo.get()) != 0 and len(direccion.get()) != 0 and len(tipoA.get()) != 0 and len(fechaI.get()) != 0 and len(fechaF.get()) != 0 and len(tarifa.get()) != 0:
+    if len(nombre.get()) != 0 and len(apellido.get()) != 0 and len(cedula.get()) != 0 and len(telefono.get()) != 0 and len(correo.get()) != 0 and len(ciudad.get()) != 0 and len(tipoA.get()) != 0 and len(fechaI.get()) != 0 and len(fechaF.get()) != 0 and len(tarifa.get()) != 0:
         if nombre.get().isalpha():
             if apellido.get().isalpha():
                 if tipoA.get().isalpha():
@@ -184,33 +200,52 @@ def editarRegistro():
                                             try:
                                                 (datetime.strptime(
                                                     fechaI.get(), '%Y-%m-%d') and datetime.strptime(fechaF.get(), '%Y-%m-%d'))
-                                                if fechaI.get() != fechaF.get():
+                                                if datetime.strptime(fechaI.get(), '%Y-%m-%d') >= datetime.today() and datetime.strptime(fechaF.get(), '%Y-%m-%d') >= datetime.today():
+                                                    if fechaI.get() != fechaF.get():
+                                                        if tarifa.get().isdigit():
+                                                            try:
+                                                                idBuscar = {
+                                                                    "_id": ObjectId(ID_USUARIO)}
+                                                                nuevosValores = {"nombre": nombre.get(), "apellido": apellido.get(), "cedula": cedula.get(), "telefono": telefono.get(
+                                                                ), "correo": correo.get(), "ciudad": ciudad.get(), "tipoHabitacion": tipoA.get(), "fechaI": fechaI.get(), "fechaF": fechaF.get(), "tarifa": tarifa.get()}
+                                                                coleccion.update(
+                                                                    idBuscar, nuevosValores)
 
-                                                    try:
-                                                        idBuscar = {
-                                                            "_id": ObjectId(ID_USUARIO)}
-                                                        nuevosValores = {"nombre": nombre.get(), "apellido": apellido.get(), "cedula": cedula.get(), "telefono": telefono.get(
-                                                        ), "correo": correo.get(), "direccion": direccion.get(), "tipoHabitacion": tipoA.get(), "fechaI": fechaI.get(), "fechaF": fechaF.get(), "tarifa": tarifa.get()}
-                                                        coleccion.update(
-                                                            idBuscar, nuevosValores)
-
-                                                        nombre.delete(0, END)
-                                                        apellido.delete(0, END)
-                                                        cedula.delete(0, END)
-                                                        telefono.delete(0, END)
-                                                        correo.delete(0, END)
-                                                        direccion.delete(
-                                                            0, END)
-                                                        tipoA.delete(0, END)
-                                                        fechaI.delete(0, END)
-                                                        fechaF.delete(0, END)
-                                                        tarifa.delete(0, END)
-                                                    except pymongo.errors.ConnectionFailure as error:
-                                                        print(error)
+                                                                nombre.delete(
+                                                                    0, END)
+                                                                apellido.delete(
+                                                                    0, END)
+                                                                cedula.delete(
+                                                                    0, END)
+                                                                telefono.delete(
+                                                                    0, END)
+                                                                correo.delete(
+                                                                    0, END)
+                                                                ciudad.delete(
+                                                                    0, END)
+                                                                tipoA.delete(
+                                                                    0, END)
+                                                                fechaI.delete(
+                                                                    0, END)
+                                                                fechaF.delete(
+                                                                    0, END)
+                                                                tarifa.delete(
+                                                                    0, END)
+                                                                editar["state"] = "disabled"
+                                                                borrar["state"] = "disabled"
+                                                                crear["state"] = "normal"
+                                                            except pymongo.errors.ConnectionFailure as error:
+                                                                print(error)
+                                                        else:
+                                                            messagebox.showerror(
+                                                                "ERROR", "Tarifa debe ser de tipo númerico")
+                                                    else:
+                                                        messagebox.showerror(
+                                                            "ERROR", "Las fechas de ingreso y salida no deben ser las mismas")
+                                                        dobleClickTabla()
                                                 else:
                                                     messagebox.showerror(
-                                                        "ERROR", "Las fechas de ingreso y salida no deben ser las mismas")
-                                                    dobleClickTabla()
+                                                        "ERROR", "La fecha debe ser mayor o igual al día actual")
                                             except ValueError:
                                                 messagebox.showerror(
                                                     "ERROR", "El formato de la fecha es incorrecto, example: Y-m-d")
@@ -254,9 +289,6 @@ def editarRegistro():
     else:
         messagebox.showerror("ERROR", "Los campos no pueden estar vacios")
     mostrarDatos()
-    crear["state"] = "normal"
-    editar["state"] = "disabled"
-    borrar["state"] = "disabled"
 
 
 def borrarRegistro():
@@ -269,7 +301,7 @@ def borrarRegistro():
         cedula.delete(0, END)
         telefono.delete(0, END)
         correo.delete(0, END)
-        direccion.delete(0, END)
+        ciudad.delete(0, END)
         tipoA.delete(0, END)
         fechaI.delete(0, END)
         fechaF.delete(0, END)
@@ -300,7 +332,7 @@ def buscarRegistro():
 tabla = ttk.Treeview(frameTabla, height=15,  columns=(
     'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j'))
 tabla.grid(row=1, column=0, columnspan=1)
-tabla.column("#0", width=100)
+tabla.column("#0", width=0)
 tabla.column("a", width=80, anchor=CENTER)
 tabla.column("b", width=80, anchor=CENTER)
 tabla.column("c", width=80, anchor=CENTER)
@@ -313,13 +345,13 @@ tabla.column("i", width=110, anchor=CENTER)
 tabla.column("j", width=110, anchor=CENTER)
 
 
-tabla.heading("#0", text="ID")
+tabla.heading("#0", text="")
 tabla.heading("#1", text="NOMBRE")
 tabla.heading("#2", text="APELLIDO")
 tabla.heading("#3", text="CEDULA")
 tabla.heading("#4", text="TELEFONO")
 tabla.heading("#5", text="CORREO")
-tabla.heading("#6", text="DIRECCION")
+tabla.heading("#6", text="CIUDAD")
 tabla.heading("#7", text="TIPO HABITACIÓN")
 tabla.heading("#8", text="FECHA INGRESO")
 tabla.heading("#9", text="FECHA SALIDA")
@@ -360,10 +392,10 @@ Label(frame2, text="CORREO", font=(
 correo = Entry(frame2, width=40)
 correo.grid(row=7, column=1)
 
-Label(frame2, text="DIRECCION", font=(
+Label(frame2, text="CIUDAD", font=(
     'Times Roman', 10, 'bold')).grid(row=8, column=0)
-direccion = Entry(frame2, width=40)
-direccion.grid(row=8, column=1)
+ciudad = Entry(frame2, width=40)
+ciudad.grid(row=8, column=1)
 
 
 Label(frame2, text="TIPO HABITACIÓN", font=(
