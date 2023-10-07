@@ -1,4 +1,4 @@
-# NRC_8903-Grupo6_ProyectoFinalUnidad1
+# SistemaReservaHotel-Python-MongoDB-Project
 Repositorio del proyecto de base de datos del Grupo 6
 Como primer paso, descargar Python, seguidamente descargar un editor de texto para su conveniencia, como recomendación descargar Visual Studio Code.
 Como siguiente paso, descargamos el gestor de base de datos NoSQL MongoDB.
