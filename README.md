@@ -1,5 +1,4 @@
 # SistemaReservaHotel-Python-MongoDB-Project
-Repositorio del proyecto de base de datos del Grupo 6
 Como primer paso, descargar Python, seguidamente descargar un editor de texto para su conveniencia, como recomendación descargar Visual Studio Code.
 Como siguiente paso, descargamos el gestor de base de datos NoSQL MongoDB.
 Crear una base de datos en MongoDB, con los mismos datos que se detallan en el archivo con el nombre “informacionDBReservaHotel” e importar el documento de la base de datos que en este caso tiene el nombre “usuarios.json”.
